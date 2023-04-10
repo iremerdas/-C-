@@ -1,39 +1,36 @@
 #include <stdio.h>
 
-int taumu(int kelime[], int a, int b){
-    if(a!=(strlen(kelime)-1)){
-        if(kelime[b]!=kelime[a]){
-            b++;
-            taumu(kelime,a,b);
-            a++;
-        }
-        else
-            return 0;
-    }else{
-        if(kelime[b]==kelime[a])
-            return 0;
-        else
-            return 1;
-    }
+int selection_sort(int arr[], int length){
+    int min, temp, i ,j;
 
+    for(i=0;i<length-1;i++){
+        min=i;
+        for(j=i+1;j<length-i;j++){
+            if(arr[min]>arr[j]){
+                min=j;
+            }
+        }
+        temp=arr[i];
+        arr[i]=arr[min];
+        arr[min]=temp;
+    }
 }
 
 int main()
 {
-     char kelime[]="mcnvb";
-
-     if(taumu(kelime,1,0))
-        printf("doru");
-     else
-        printf("yanlis");
-
-        /*int toplam=0, carpim=1;
-
-        for(int i=1;i<=4;i++){
-            carpim=i*i;
-            toplam+=carpim;
+     int length;
+    while(1){
+        printf("Enter the number of elements of your array: "); scanf("%d", &length);
+        int arr[length];
+        for(int i=0;i<uzunluk;i++){
+            scanf("%d",&arr[i]);
         }
-        printf("%d", toplam); */
+        printf("\n");
+        selection_sort(arr,length);
+        for(int i=0;i<length;i++){
+            printf("%d ", arr[i]);
+        }
+    }
 
     return 0;
 }
