@@ -1,0 +1,162 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int *arr=NULL;
+int head=0,fallow=0,size=2;
+
+
+int deque(){
+    if(head==fallow){
+        printf("arr Bos!!");
+        return -1;
+    }
+    if(fallow-head<size/4){
+        int *arr2=(int*)malloc(sizeof(int)*size/2);
+        for(int i=0;i<fallow-head;i++){
+            arr2[i]=arr[head+i];
+        }
+        fallow-=head;
+        free(arr);
+        arr=arr2;
+    }
+    return arr[head++];
+}
+
+int enque(int a){
+    if(head==fallow){
+        arr=(int*)malloc(sizeof(int)*size);
+    }
+    if(fallow>=size){
+        size*=2;
+        int *arr2=(int*)malloc(sizeof(int)*size);
+        for(int i=0;i<size/2;i++)
+            arr2[i]=arr[i];
+        free(arr);
+        arr=arr2;
+    }
+    arr[fallow++]=a;
+
+}
+
+void clean(){
+    if(head==0)
+        return ;
+    for(int i=0;i<size;i++){
+        arr[i]=arr[i+head];
+    }
+    fallow-=head;
+    head=0;
+}
+
+int main(){
+
+    /*
+    for(int j=0;j<10;j++)
+        printf("%d ", deque());*/
+
+
+    int data,sc,a,i,input;
+    char ch;
+
+    printf("Kaç adet veri gireceksiniz? ");
+    scanf("%d",&data);
+
+    while(1){
+        printf("\nOperator girmek için 1'e sayi girmek için 2'ye basiniz! ");
+        scanf("%d", &sc);
+        switch(sc){
+        case 1:
+                ch=getch();
+                putch(ch);
+                a=ch;
+                enque(a);
+                i++;
+            break;
+        case 2:
+                scanf("%d",&input);
+                enque(input);
+                i++;
+            break;
+        default: printf("hatali giris!");
+        }
+        if(i==data)
+            break;
+    }
+
+    printf("\nPrefixiniz:\n ");
+    for(int j=0;j<data;j++){
+        if(arr[j]==42)
+            printf("%c ",arr[j]);
+        else if(arr[j]==43)
+            printf("%c ",arr[j]);
+        else if(arr[j]==45)
+            printf("%c ",arr[j]);
+        else if(arr[j]==47)
+            printf("%c ",arr[j]);
+        else
+            printf("%d ", arr[j]);
+    }
+
+    int q,h,r,d,e,sonuc,t;
+    //int *arr4=(int*)malloc(sizeof(int)*size);
+    for(t=0;t<data;t++){
+        q=deque();
+        if(q==42 || q==43 || q==45 || q==47){
+            h=deque();
+            r=deque();
+            // ikisi de sayıysa
+            if((h!=42 && h!=43 && h!=45 && h!=47)&&(r!=42 && r!=43 && r!=45 && r!=47)){
+                if(q==42)
+                    sonuc=h*r;
+                else if(q==43)
+                    sonuc=h+r;
+                else if(q==45)
+                    sonuc=h-r;
+                else if(q==47)
+                    sonuc=h/r;
+
+                enque(sonuc);
+
+                printf("\n\n");
+
+
+                 for(int j=0;j<data-2;j++){
+                    if(arr[j]==42)
+                        printf("%c ",arr[j]);
+                    else if(arr[j]==43)
+                        printf("%c ",arr[j]);
+                    else if(arr[j]==45)
+                        printf("%c ",arr[j]);
+                    else if(arr[j]==47)
+                        printf("%c ",arr[j]);
+                    else
+                        printf("%d ", arr[j]);
+                }
+
+                //printf("yazdirma islemi\n");
+
+            }
+            // ikinci sayı üçüncü operatörse
+            else if((h!=42 && h!=43 && h!=45 && h!=47)&&(r==42 || r==43 || r==45 || r==47)){
+                enque(q); enque(h); enque(r);
+                //printf("ikinci sayi 3 operator");
+            }
+            // ikinci operatör üçüncü sayıysa
+            else if((h==42 || h==43 || h==45 || h==47)&&(r!=42 && r!=43 && r!=45 && r!=47)){
+                enque(q); enque(h); enque(r);
+                //printf("2. operator 3 sayi");
+            }
+            // ikisi de operatörse
+            else{
+                enque(q); enque(h); enque(r);
+                //printf("ikiside operator");
+            }
+        }
+        else{
+            enque(q);
+            //printf("ilki sayıysa\n");
+        }
+    }
+
+    return 0;
+}
