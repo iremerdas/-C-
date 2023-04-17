@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+
+int main()
+{
+
+    int i,j,taban;
+
+    printf("tabani degerini giriniz: ");
+    scanf("%d", &taban);
+    printf("--------------------------------------------------------------");
+    printf("\n\n\n");
+
+    for(i=1;i<=taban;i++){
+        if(i==taban){ // üçgenin tabanını çiziyoruz
+            for(j=1;j<=taban-1;j++){ // printte bir yıldız ve bir boşluk karakteri olduğu için iki karakterden hesaplamamız gerekiyor
+                printf("* "); // bu yüzden taban-1 yapmamız gerekiyor üst sınırı
+            }
+        }
+
+            for(j=1;j<=taban-i;j++){ // taban-i  olmasının sebebi boşluk her alt satıra geçtiğinde birer birer azalıyor yani i değeri kadar azalmış oluyor
+                printf(" "); // yandaki boşluklar
+            }
+            printf("*"); // her boşluktan sonra bir yıldız koyuyor
+        //}
+        //bu kısımda iç kısımda boşluklardan oluşan üçgeni kodluyoruz
+        if(i>1 && i<taban){ // bu if bloğu gerekli olmayınca alttaki * yazdıran kod yanlış yerlere yıldız koyuyo
+            // içteki üçgen 2. satırdan başladığı için i birden büyük ve taban durumunu yukarıda yazdığımız için katmıyoruz
+            for(j=2;j<2*i-1;j++){ // 1 3 5 diye artarak gidiyor üçgen haliyle 2*i-1 formülü çıkıyor. i=2->3, i=3->5 gibi
+                // dikkat etmek gereken <= olmadığı, olsaydı i=3->5 olduğunda 5 boşluk atardı ama 3. satırda 4 boşluk olması lazım
+                printf(" "); // boşluklardan oluşan bir üçgen demiştik
+            }
+            printf("*"); // üçgenin her satırı bittiğinde bitimine bir yıldız karakteri ekliyor
+        }
+        printf("\n");// tüm işlemler bittikten sonra
+    }
+
+
+    return 0;
+}
