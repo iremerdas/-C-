@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct n{
+    int data;
+    struct n* right;
+    struct n* left;
+}node;
+
+node* add(node* root, int x){
+    if(root==NULL){
+        root=(node*)malloc(sizeof(node));
+        root->data=x;
+        root->right=NULL;
+        root->left=NULL;
+        return root;
+    }
+    if(root->data < x){
+        root->right=add(root->right,x);
+        return root;
+    }
+    root->left=add(root->left,x);
+    return root;
+}
+
+void dolas(node* root){
+    if(root==NULL)
+        return NULL;
+    dolas(root->right);
+    printf("%d ", root->data);
+    dolas(root->left);
+}
+
+node* avl_tree(node* root){
+
+}
+
+int main()
+{
+    node* r=NULL;
+
+    r=add(r,200); r=add(r,24); r=add(r,12); r=add(r,56); r=add(r,190); r=add(r,18); r=add(r,213); r=add(r,27); r=add(r,28); r=add(r,5); r=add(r,30);
+    dolas(r);
+
+
+    return 0;
+}
