@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void ara(char x[],char y[]){
+    int sayac=0,indis[51],i,j;
+    for(i=0;i<strlen(x)-strlen(y)+1;i++){
+        for(j=0;j<strlen(y);j++){
+            if(x[i+j]!=y[j])
+                break;
+        }
+        if(j==strlen(y))
+            indis[sayac++]=i;
+    }
+    indis[sayac]=-1;    // sonlandıgını göstermek icin
+    printf("bulunan elemanlar: ");
+    sayac=0;
+    while(indis[sayac]!=-1){
+        printf("%d ", indis[sayac]);
+        sayac++;
+    }
+}
+
+int main()
+{
+    char metin[51],altmetin[51];
+
+    printf("metni giriniz\n"); gets(metin);
+    printf("\nAlt metni giriniz\n"); gets(altmetin);
+
+    ara(metin,altmetin);
+
+    return 0;
+}
