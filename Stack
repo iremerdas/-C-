@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct n{
+    int data;
+    struct n* next;     
+}node;
+
+int pop(node * root){
+    if(root==NULL){
+        printf("stack bos!");
+        return -1;
+    }
+    if(root->next==NULL){
+        int rvalue=root->data;
+        free(root);
+        return rvalue;
+    }
+    node* iter=root;
+    while(iter->next->next!=NULL)
+        iter=iter->next;
+    node* temp=iter->next;
+    int rvalue1=temp->data;
+    free(temp);
+    iter->next=NULL;
+    return rvalue1;
+
+}
+
+node* push(node* root,int x){   // Diziye ekleme
+    // Eğer dizi boşsa ilk node eklenir  
+    if(root==NULL){     
+        root = (node*)malloc(sizeof(node*));    // Dinamik olarak bellekte node kadar yer ayrılır
+        root->data=x;   // dizinin ilk elemanını gösteren pointerın değerine atama yapılır
+        root->next=NULL;    
+        return root;
+    }
+    node* iter=root;    // dizinin ilk elamanını tutan root pointerı korunması için gezinecek iter pointerı atanır.
+    while(iter->next!=NULL)     // Son elemana götürülür
+        iter=iter->next;
+    node* temp=(node*)malloc(sizeof(node*));    // sona yeni node eklenir
+    temp->data=x;
+    temp->next=NULL;
+    iter->next=temp;
+    return root;
+}
+
+void print(node* root){
+    while(root!=NULL){
+        printf("%d ", root->data);
+        root=root->next;
+    }
+}
+
+
+int main()
+{
+
+    node* r=NULL;
+    r=push(r,10);
+    r=push(r,20);
+    r=push(r,30);
+    r=push(r,40);
+    print(r);
+    printf("\n%d ", pop(r));
+    printf("\n%d ", pop(r));
+
+}
