@@ -1,0 +1,110 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct blok{
+    int x;
+    struct blok* next;
+}kontrol;
+
+kontrol* print(kontrol* r){
+    while(r!=NULL){
+        printf("%d\n", r->x);
+        r=r->next;
+    }
+}
+
+void add(kontrol* r, int x){
+    while(r->next!=NULL){ //rootun gösterdiği ilk kutudan başlayarak rootun nextinin null u gösterdiği kutuya kadar(yani son kutunun datasına kadar) gittik, döngü sayesinde ve son kutunun datasında durduk böylece son kutunun yanında bir kutu adddik
+        r=r->next;
+    }
+    r->next=(kontrol*)malloc(sizeof(kontrol)); // kutu açık
+    r->next->x=x; // yeni kutunun datasına x atadık
+    r->next->next=NULL; // yeni kutunun pointerina null atadık ve liste yi tamamladık
+}
+
+kontrol* sorted(kontrol* r, int x){
+    if(r==NULL){ // eğer hiç düğüm yoksa
+        r=(kontrol*)malloc(sizeof(kontrol)); // yeni bir düğüm ata
+        r->next=NULL; // nextine null koy ki bitişi belli et
+        r->x=x; // r ın datasına x ata
+        return r; // maine r ı yani rootu döndür
+    }
+    if(r->x > x){ // yeni gelen kutu rootun xinden küçükse durumu(en başa geçme durumu)
+        kontrol* temp=(kontrol*)malloc(sizeof(kontrol));
+        temp->x=x;
+        temp->next=r;
+        return temp;// temp yeni root oldu geçiçi olarak. mainde root= diyerek fonksiyonu çağırdığımızda temp root olarak dönüyor her türlü rootu döndürmğş oluyoruz
+    }
+    kontrol* iter=r;
+    while(iter->next!=NULL && iter->next->x <x){
+        iter=iter->next;
+    }
+    kontrol* temp=(kontrol*)malloc(sizeof(kontrol));
+    temp->x=x;
+    temp->next=iter->next;
+    iter->next=temp;
+    return r;
+
+
+}
+
+kontrol* delete(kontrol* r, int x){ // r pointerı ve deleteinmesini sitediğimiz x değişkenini verdin
+    kontrol* iter; // gezinmesi için iter düğümü atadın
+    kontrol* temp; // deletemek istediğimiz bloğu tutması için geçiçi olarak temp atadık
+    if(r->x==x){ // eğer rootun gösterdiği x yani ilk bloğun datası deleteinmesini istediğimiz data ile aynı ise
+        temp=r; // temp r ye ata ki onu tutsun böylelikle deleteebilelim
+        r=r->next; // ryi rnin nextine atadığında yeni rootu atamış olutorsun ayrıca bağlantı kopmamış oluyor
+        free(temp); // temp artık ilk bloğu yani deleteinmesini istediğimiz bloğu deleteiyor
+        return r;
+    }
+    iter=r; // iteri gezinmesi için r ye ata ki r hep ilk değeri göstersin
+    while(iter->next!=NULL && iter->next->x!=x){ // iterden(şu an root) sonraki bloğun gösterdiği değer null değilse yani liste bitmemişse ve sonra ki bloğun x  i deleteinmesini istediğimiz x değilse
+        iter=iter->next; // iter hep bir sonra ki bloğa geçsin
+    } // iterin nextini kullanmamızın sebebi ise eğer deleteinmesini isteidğimiz bloğa gelirsek geri dönemeyiz
+    if(iter->next->x==x){ // eğer istenen x değeri iterin nextinin x i ne eşit ise
+        temp=iter->next; //tempi deleteinmesini sitediğin bloğa eşitle
+        iter->next=iter->next->next; // aradaki bağlantıyı kur
+        free(temp); // delete
+        return  r;
+    }
+    if(iter->next==NULL){
+        printf("aradiginiz sayi bulunamadı. \n");
+        return r;
+    }
+}
+
+
+int main()
+{
+
+    kontrol* root=(kontrol*)malloc(sizeof(kontrol));
+    root->next=NULL;
+    root->x=500;
+    int i;
+    for(i=0;i<5;i++){
+        add(root, i*10);
+    }
+    print(root);
+
+
+    /*kontrol* root=NULL;
+    root=sorted(root, 300);
+    root=sorted(root, 40);
+    root=sorted(root, 4);
+    root=sorted(root, 450);
+    root=   sorted(root, 50);
+    print(root);*/
+
+
+
+    /*kontrol* iter=root; // iter isminde bir düğüm tanımladım ve başta roota eşitledim
+    for(i=0;i<3;i++)
+        iter=iter->next; // bu for döngüsü ile 3 kere iteri(başta rootta) iterin nextine atadım böylece iter en sonunda 4. kutuyu yani 20 integerını tutan kutuya ulaşmış oldu şu an onu gösteriyor
+
+    kontrol* temp=(kontrol*)malloc(sizeof(kontrol)); // geçiçi bir düğüm oluşturuldu ve uzayda kaybetmemk için temp adında bir değişkene atandı
+    temp->next=iter->next; // geçiçi olarak atadığım tempin nextini iterin nextine atadım. (iterin nexti 5. kutuyu yani 30u gösteriyor)
+    iter->next=temp; // şimdi de iterin nextini yani 4. kutuyunun pointerinı temo düğümümn datasına atadım bylece temp düğümü yeni 5. kutu oldu
+    temp->x=100; // tempin datasına 100 değeri atadık artık 20 ile 30 arasında 100 değeri var
+    //print(root);*/
+
+}
