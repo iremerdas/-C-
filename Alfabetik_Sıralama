@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    char sirasiz[10][51],sirali[10][51],enkucukkelime[51];
+    enkucukkelime[50]='\0';
+    int enkucukindis;
+    printf("sirasiz hali;\n");
+    // dizi alınır
+    for(int i=0;i<10;i++){
+        gets(sirasiz[i]);
+    }
+    printf("\nsirali hali:\n");
+    for(int i=0;i<10;i++){
+        enkucukindis=-1;
+        for(int k=0;k<50;k++)   
+        // int_max ataması gibi düsün
+        // z ascii numarası 123 '{' numarası ise 124tür
+            enkucukkelime[k]='{';
+        for(int j=0;j<10;j++){
+            if(strcmp(sirasiz[j],enkucukkelime)<0){
+                strcpy(enkucukkelime,sirasiz[j]);
+                enkucukindis=j;
+            }
+        }
+        for(int k=0;k<50;k++)
+            sirasiz[enkucukindis][k]='{';
+        strcpy(sirali[i],enkucukkelime);
+    }
+
+
+    for(int i=0;i<10;i++){
+        puts(sirali[i]);
+    }
+
+    return 0;
+}
